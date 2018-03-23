@@ -84,6 +84,12 @@ def train(args):
         cPickle.dump(args, f)
     with open(os.path.join(args.save_dir, 'words_vocab.pkl'), 'wb') as f:
         cPickle.dump((data_loader.words, data_loader.vocab), f)
+        
+    # writes metadata (for TensorBoard visualization)
+    with codecs.open(args.save_dir + '/metadata.tsv', 'w', encoding='utf8') as f:
+        f.write("Index\tWord\n") 
+        for i in range(args.vocab_size):
+            f.write("%d\t%s\n" % (i, data_loader.words[i]))
 
     model = Model(args)
 
